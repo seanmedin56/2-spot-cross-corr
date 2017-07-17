@@ -118,25 +118,26 @@ function gillespie = synthetic_two_spot_gillespie(seq_length, alpha, ...
         % find the fluorescence at the uniformly distributed points taking the
         % MS2 loops into account
         arrival_times = sort(arrival_times);
+        arrival_times_r = arrival_times + (w{1} - w{wi}) * deltaT;
         fluo_MS2{wi} = zeros(1, seq_length);
         fluo_MS2_orig = zeros(1, seq_length);
         for k = 1:seq_length
             t_end = times_unif(k);
             t_start = max([0, t_end - w{wi}*deltaT]);
 
-            ind_start_before = find(arrival_times >= t_start);
+            ind_start_before = find(arrival_times_r >= t_start);
             if isempty(ind_start_before)
                 continue;
             end
             i_start = ind_start_before(1);
 
-            ind_end_before = find(arrival_times <= t_end);
+            ind_end_before = find(arrival_times_r <= t_end);
             if isempty(ind_end_before)
                 continue;
             end
             i_end = ind_end_before(end);
 
-            times_window = arrival_times(i_start:i_end);
+            times_window = arrival_times_r(i_start:i_end);
 
             for i = 1:(length(times_window))
 

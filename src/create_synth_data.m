@@ -128,7 +128,7 @@ for i = 1:nGR
     for set = 1:n_sets
         fluo_data = cell([1 length(w)]);
         old_fluo_data = cell([1 length(w)]);
-        for wi = 1:length(wi)
+        for wi = 1:length(w)
             fluo_data{wi} = cell([1, n_traces(i)]);
             old_fluo_data{wi} = cell([1, n_traces(i)]);
         end
