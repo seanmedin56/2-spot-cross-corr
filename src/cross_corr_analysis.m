@@ -39,22 +39,32 @@ end
 % -------------plots the autocovariance and the raw moment----------------
 
 corr_r = smooth(cross_corr_r_calc(trace1, trace2, max_delay))';
-%bootstrap_r = corr_bootstraps(trace1, trace2, max_delay, 1000, 'r');
+if length(trace1) > 5
+    bootstrap_r = corr_bootstraps(trace1, trace2, max_delay, 1000, 'r');
+end
 
 h = figure;
-%errorbar(0:max_delay-1, corr_r, bootstrap_r);
-plot(0:max_delay-1, corr_r);
+if length(trace1) > 5
+    errorbar(0:max_delay-1, corr_r, bootstrap_r);
+else
+    plot(0:max_delay-1, corr_r);
+end
 title(['raw moment: ' project]);
 xlabel('time delay');
 savefig([dirs{1} 'raw_moment.fig']);
 close(h);
 
 corr_m = cross_corr_m_calc(trace1, trace2, max_delay);
-%bootstrap_m = corr_bootstraps(traces, max_delay, 1000, 'm');
+if length(trace1) > 5
+    bootstrap_m = corr_bootstraps(trace1, trace2, max_delay, 1000, 'm');
+end
 
 h = figure;
-%errorbar(0:max_delay-1, corr_m, bootstrap_m);
-plot(0:max_delay-1, corr_m);
+if length(trace1) > 5
+    errorbar(0:max_delay-1, corr_m, bootstrap_m);
+else
+    plot(0:max_delay-1, corr_m);
+end
 title(['central moment: ' project]);
 xlabel('time delay');
 savefig([dirs{1} 'central_moment.fig']);

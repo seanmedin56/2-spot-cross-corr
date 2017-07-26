@@ -19,7 +19,7 @@ nGR = 1;
 deltaT = {40, 20, 10};
 
 % system memory
-w = {4, 2};
+w = {15, 9};
 
 % time it takes to transcribe the MS2 loops [sec]
 t_MS2 = 60;
@@ -59,7 +59,7 @@ r_emission{3} = r_emission{2};
 % background noise [a.u.]
 noise = cell([1, nGR]);
 for i = 1:nGR
-    noise{i} = 1200;
+    noise{i} = 0;
 end
 
 % state conversion (which states are active in the two loci)

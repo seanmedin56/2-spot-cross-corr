@@ -23,18 +23,32 @@ for k = 1:length(s3)
         rawredsum = [];
         greenmax = [];
         rawredmax = [];
+        green98 = [];
+        red98 = [];
+        green95 = [];
+        red95 = [];
 
         for i = 1:length(a)
             greensum(i) = sum(sum(a{i}));
             greenmax(i) = max(max(a{i}));
             rawredsum(i) = sum(sum(b{i}));
             rawredmax(i) = max(max(b{i}));
+            a2 = reshape(a{i}, 1, numel(a{i}));
+            b2 = reshape(b{i}, 1, numel(b{i}));
+            green98(i) = prctile(a2, 98);
+            red98(i) = prctile(b2, 98);
+            green95(i) = prctile(a2, 95);
+            red95(i) = prctile(b2, 95);
         end
         
         preprocessed(idx).greensum = greensum;
         preprocessed(idx).greenmax = greenmax;
+        preprocessed(idx).green98 = green98;
+        preprocessed(idx).green95 = green95;
         preprocessed(idx).redsum = rawredsum;
         preprocessed(idx).redmax = rawredmax;
+        preprocessed(idx).red98 = red98;
+        preprocessed(idx).red95 = red95;
         idx = idx + 1;
     end
 end
