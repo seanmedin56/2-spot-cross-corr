@@ -19,7 +19,7 @@ nGR = 1;
 deltaT = {40, 20, 10};
 
 % system memory
-w = {15, 9};
+w = {10, 2};
 
 % time it takes to transcribe the MS2 loops [sec]
 t_MS2 = 60;
