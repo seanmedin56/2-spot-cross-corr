@@ -1,3 +1,5 @@
+addpath('utilities/');
+
 dataElong = open('C:\Users\seanm\Desktop\garcia_lab_stuff\elong_search\dat\real_data\20sSnippetStructures.mat');
 s3 = dataElong.s3;
 s5 = dataElong.s5;
@@ -6,7 +8,7 @@ s5 = dataElong.s5;
 % minFrames
 % frames of data collected
 
-minFrames = 35;
+minFrames = 30;
 
 preprocessed = struct;
 
@@ -14,7 +16,7 @@ preprocessed = struct;
 
 idx = 1;
 for k = 1:length(s3)
-    if length(s3(k).newFrames) > minFrames
+    if length(s3(k).newFrames) >= minFrames
         a = s3(k).SnippetGreen;
         b = s3(k).SnippetRed;
         t = s3(k).newFrames;
@@ -27,6 +29,8 @@ for k = 1:length(s3)
         red98 = [];
         green95 = [];
         red95 = [];
+        greengauss = [];
+        redgauss = [];
 
         for i = 1:length(a)
             greensum(i) = sum(sum(a{i}));
@@ -39,6 +43,11 @@ for k = 1:length(s3)
             red98(i) = prctile(b2, 98);
             green95(i) = prctile(a2, 95);
             red95(i) = prctile(b2, 95);
+            
+            %use gaussain technique taken from pipeline
+            [greengauss(i), ~] = gauss_integral(double(a{i}));
+            [redgauss(i), ~] = gauss_integral(double(b{i}));
+            
         end
         
         preprocessed(idx).greensum = greensum;
@@ -49,6 +58,9 @@ for k = 1:length(s3)
         preprocessed(idx).redmax = rawredmax;
         preprocessed(idx).red98 = red98;
         preprocessed(idx).red95 = red95;
+        preprocessed(idx).greengauss = greengauss;
+        preprocessed(idx).redgauss = redgauss;
+        preprocessed(idx).times = t * 20;
         idx = idx + 1;
     end
 end

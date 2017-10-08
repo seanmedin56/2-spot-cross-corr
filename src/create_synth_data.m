@@ -16,13 +16,13 @@ K = 3;
 nGR = 1;
 
 % time resolution
-deltaT = {40, 20, 10};
+deltaT = {20, 20, 10};
 
 % system memory
-w = {10, 2};
+w = {10, 3};
 
 % time it takes to transcribe the MS2 loops [sec]
-t_MS2 = 60;
+t_MS2 = 30;
 
 % alpha: length of the MS2 loop in time steps
 alpha = cell(1,nGR);
@@ -59,7 +59,7 @@ r_emission{3} = r_emission{2};
 % background noise [a.u.]
 noise = cell([1, nGR]);
 for i = 1:nGR
-    noise{i} = 0;
+    noise{i} = 1000;
 end
 
 % state conversion (which states are active in the two loci)
@@ -163,9 +163,9 @@ end
 
 
 % extract the current date in a string format
-formatOut = 'yyyymmdd_HH_MM';
-date_str = datestr(datetime('now'),formatOut);
+file_name = ['eve_like_dT' int2str(deltaT{1}) 'w' int2str(w{1}) 'w' int2str(w{2}) ...
+    'n1k']; 
 
 % save the generated data into a '.mat' file
-save(['../dat/synth_dat/' date_str '_data.mat'], 'data');
-save(['../dat/synth_dat/' date_str '_params.mat'], 'synthetic_parameters');
+save(['../dat/synth_dat/' file_name '_data.mat'], 'data');
+save(['../dat/synth_dat/' file_name '_params.mat'], 'synthetic_parameters');
