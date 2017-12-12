@@ -16,10 +16,10 @@ K = 3;
 nGR = 1;
 
 % time resolution
-deltaT = {20, 20, 10};
+deltaT = {10, 20, 10};
 
 % system memory
-w = {10, 3};
+w = {12, 3};
 
 % time it takes to transcribe the MS2 loops [sec]
 t_MS2 = 30;
@@ -64,7 +64,7 @@ end
 
 % state conversion (which states are active in the two loci)
 conv = cell([1, nGR]);
-conv{1} = [1, 0; 0, 2; 2, 2];
+conv{1} = [1, 0; 0, 2; 3, 0];
 conv{2} = conv{1};
 conv{3} = conv{1};
 

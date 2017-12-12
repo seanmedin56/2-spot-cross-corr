@@ -9,6 +9,11 @@ if exist('project') ~= 1
     return
 end
 
+if exist('cut') ~= 1
+    cut = 1;
+end
+project = [project 'cut' num2str(cut)];
+
 % create directories for outputing plots
 dirs = {['../out/auto_corr/' project '/']};
 
@@ -30,6 +35,10 @@ if exist('max_delay') ~= 1
     return
 end
 
+for i = 1:length(traces)
+    traces{i} = traces{i}(cut:end);
+end
+
 % -------------plots the autocovariance and the raw moment----------------
 
 corr_m = auto_corr_m_calc_norm(traces, max_delay);
@@ -39,6 +48,7 @@ corr_m = auto_corr_m_calc_norm(traces, max_delay);
 h = figure;
 plot(0:max_delay-1, corr_m);
 title('central moment');
+grid on
 savefig([dirs{1} 'central_moment.fig']);
 close(h);
 
