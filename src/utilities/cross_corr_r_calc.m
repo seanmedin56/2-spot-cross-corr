@@ -13,8 +13,8 @@ function cross_corr_r = cross_corr_r_calc(trace1, trace2, max_delay)
         for j = 1:limit
             corr(j) = trace1{i}(1:len - j + 1) * trace2{i}(j:len)';
         end
-        corrs{i} = corr;
-        counts(1:limit) = counts(1:limit) + (len:-1:(len - limit + 1));
+        corr = corr ./ (len:-1:(len - limit + 1));
+        corrs{i} = corr / corr(1);
     end
     
 % -----------------combines correaltions together------------------------    
@@ -24,7 +24,7 @@ function cross_corr_r = cross_corr_r_calc(trace1, trace2, max_delay)
         cross_corr_r(1:length(corrs{i})) = cross_corr_r(1:length(corrs{i})) ...
             + corrs{i};
     end
-    cross_corr_r = cross_corr_r ./ counts;
+    cross_corr_r = cross_corr_r / cross_corr_r(1);
 
 end
 

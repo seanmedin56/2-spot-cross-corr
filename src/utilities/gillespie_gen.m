@@ -84,7 +84,7 @@ for k = 1:points_per_trace
     for i = 1:(length(times_window))
 
         t2 = t_end - times_window(i);
-        if t2 > alpha * deltaT
+        if t2 > MS2_rise_time * time_res
             trace(k) = trace(k) + fluo_per_rna;
         else
             trace(k) = trace(k) + fluo_per_rna * ...

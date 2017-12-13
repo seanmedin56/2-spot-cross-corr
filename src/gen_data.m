@@ -1,6 +1,4 @@
-addpath('utilities/')
-
-function [traces] = gen_data(elong_time,time_res,points_per_trace, ...
+function traces = gen_data(elong_time,time_res,points_per_trace, ...
                             num_traces, num_states, trans_mat, ...
                             rna_per_sec, fluo_per_rna,MS2_rise_time, ...
                             init_dist, noise)
@@ -18,6 +16,8 @@ function [traces] = gen_data(elong_time,time_res,points_per_trace, ...
 % MS2_rise_time: How long it takes for a polymerase to fully fluoresce
 % init_dist: The initial probability distribution for being in a given
 % state
+
+addpath('utilities/');
 
 traces = cell([1,num_traces]);
 for i = 1:num_traces
