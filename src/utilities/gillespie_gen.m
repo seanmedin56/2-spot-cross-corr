@@ -15,6 +15,8 @@ function [trace] = gillespie_gen(elong_time, time_res, points_per_trace, ...
 % init_dist: The initial probability distribution for being in a given
 % state
 
+%temp
+
 % the trace that will be returned
 trace = zeros(1,points_per_trace);
 
@@ -84,11 +86,11 @@ for k = 1:points_per_trace
     for i = 1:(length(times_window))
 
         t2 = t_end - times_window(i);
-        if t2 > MS2_rise_time * time_res
+        if t2 > MS2_rise_time
             trace(k) = trace(k) + fluo_per_rna;
         else
             trace(k) = trace(k) + fluo_per_rna * ...
-                      t2 / (MS2_rise_time * time_res);
+                      t2 / MS2_rise_time;
         end
     end
 end

@@ -1,4 +1,5 @@
-function gen_auto_cor(traces, auto, first, second, bootstraps, max_delay,cut)
+function gen_auto_cor(traces, auto, first, second, ...
+                                    bootstraps, max_delay,cut)
 % Generates an autocorrelation and/or the derivatives of an
 % autocorrelation for the traces
 % traces: The traces we are taking the autocorrelation of
