@@ -10,6 +10,6 @@ function alph = alpha(tau, rise_time)
     end
     
     if alph < 0
-        display([str(alph) ' error at tau = ' str(tau) ' and rt ' str(rise_time)])
+        display([int2str(alph) ' error at tau = ' int2str(tau) ' and rt ' int2str(rise_time)])
     end
 end
