@@ -36,7 +36,8 @@ function [best_elong,best_rise,all] = grid_monte_carlo(time_res, points_per_trac
             
             %this *might* make it more robust against different parameters
             %(will play around with it more later)
-            corr2nd = corr2nd * (auto_cor2nd(i) / corr2nd(i));
+            adjust = (corr2nd * auto_cor2nd') / (corr2nd * corr2nd');
+            corr2nd = corr2nd * adjust;
             
             %ignores first value
             err_arr = corr2nd(2:end) - auto_cor2nd(2:end);
