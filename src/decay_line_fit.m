@@ -24,15 +24,19 @@ function opt = decay_line_fit(auto_cor,upper_limits,lower_limits)
     % starting points and choose the one with the lowest error
     low_err = 10000;
     opt = [0,0,0,0,0];
-    for j = 1:100
+    options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-8, ...
+        'StepTolerance', 1e-8, 'OptimalityTolerance', 1e-8, 'display', 'off');
+    for j = 1:20
         x0 = zeros(1,5);
         for i =1:5
             x0(i) = rand() * (upper_limits(i) - lower_limits(i)) + lower_limits(i);
         end
-        [x,err] = lsqnonlin(f,x0,lower_limits,upper_limits);
+        [x,err] = lsqnonlin(f,x0,lower_limits,upper_limits,options);
         if err < low_err
             low_err = err;
             opt = x;
+            disp(low_err);
+            disp(opt);
         end
     end
     display(low_err);
@@ -41,12 +45,12 @@ function opt = decay_line_fit(auto_cor,upper_limits,lower_limits)
     approx_elong = zeros(1, length(auto_cor));
     approx_dynam = zeros(1, length(auto_cor));
     for i = 1:length(approx)
+        approx_elong(i) = opt(1)*elong_term(opt(4),opt(5),i-1);
+        approx_dynam(i) = dynam_term(opt(4),opt(5),i-1,opt(2));
         approx(i) = (dynam_term(opt(4),opt(5),i-1,opt(2)) + ...
             opt(1)*elong_term(opt(4),opt(5),i-1) - opt(3)) / ...
             (dynam_term(opt(4),opt(5),0,opt(2)) + ...
             opt(1)*elong_term(opt(4),opt(5),0) - opt(3));
-        approx_elong(i) = opt(1)*elong_term(opt(4),opt(5),i-1);
-        approx_dynam(i) = dynam_term(opt(4),opt(5),i-1,opt(2));
     end
     figure();
     grid on

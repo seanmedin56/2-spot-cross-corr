@@ -6,6 +6,10 @@ function elong_cor = elong_term(elong,alph,tau)
         for i=1:(elong-tau)
             elong_cor = elong_cor + alpha(elong-i,alph)*alpha(elong-i-tau,alph);
         end
+        if elong - tau < 1
+            i = 0;
+        end
+        elong_cor = elong_cor + (elong - tau - i) * alpha(tau,alph)*alpha(0,alph);
     end
 end
 
