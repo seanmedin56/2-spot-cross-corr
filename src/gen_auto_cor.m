@@ -1,4 +1,4 @@
-function gen_auto_cor(traces, auto, first, second, ...
+function hs = gen_auto_cor(traces, auto, first, second, ...
                                     bootstraps, max_delay,cut)
 % Generates an autocorrelation and/or the derivatives of an
 % autocorrelation for the traces
@@ -9,7 +9,7 @@ function gen_auto_cor(traces, auto, first, second, ...
 % bootstraps: Boolean determining if to include bootstraps
 % max_delay: How many points to take of the autocorrelation
 addpath('utilities/');
-
+hs = [];
 %cuts the traces by amount cut
 for i=1:length(traces)
     traces{i} = traces{i}(1 + cut:end);
@@ -34,6 +34,7 @@ if auto
     end
     title('Central Moment');
     grid on
+    hs(1) = h;
 end
 
 if first
@@ -45,6 +46,7 @@ if first
     end
     title('Central Moment 1st Derivative');
     grid on
+    hs(2) = h;
 end
 
 if second
@@ -56,6 +58,6 @@ if second
     end
     title('Central Moment 2nd Derivative');
     grid on
-
+    hs(3) = h;
 end
 

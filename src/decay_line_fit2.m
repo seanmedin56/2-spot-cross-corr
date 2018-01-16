@@ -1,4 +1,4 @@
-function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits)
+function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
 %Fits the elongation correlation term plus an exponential decay term for
 %the dynamics correlation to the given auto correlation with a nonlinear
 %least squares fitting
@@ -24,7 +24,7 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits)
     opt = zeros(1,num_vars);
     options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-8, ...
         'StepTolerance', 1e-8, 'OptimalityTolerance', 1e-8, 'display', 'off');
-    for j = 1:10
+    for j = 1:15
         x0 = zeros(1,num_vars);
         for i =1:num_vars
             x0(i) = rand() * (upper_limits(i) - lower_limits(i)) + lower_limits(i);
@@ -38,22 +38,33 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits)
         end
     end
     display(low_err);
-    %plot result
-    approx = zeros(1,length(auto_cor));
-    for i = 1:length(approx)
-        approx(i) = full_func_cor(opt(2),opt(3),i-1,opt(1)) / ...
-            full_func_cor(opt(2),opt(3),0,opt(1));
+    if exist('hs', 'var')
+        %plot result
+        approx = zeros(1,length(auto_cor));
+        for i = 1:length(approx)
+            approx(i) = full_func_cor(opt(2),opt(3),i-1,opt(1)) / ...
+                full_func_cor(opt(2),opt(3),0,opt(1));
+        end
+        if ishandle(hs(1))
+            set(0, 'CurrentFigure', hs(1));
+            hold on
+            plot(0:length(approx)-1,approx);
+            legend('Original', 'Estimate');
+        end
+        deriv1 = approx(2:end) - approx(1:end-1);
+        if length(hs) > 1 && ishandle(hs(2))
+            set(0, 'CurrentFigure', hs(2));
+            hold on
+            plot(deriv1);
+            legend('Original', 'Estimate');
+        end
+        if length(hs) > 2 && ishandle(hs(3))
+            deriv2 = deriv1(2:end) - deriv1(1:end-1);
+            set(0, 'CurrentFigure', hs(3));
+            hold on
+            plot(deriv2);
+            legend('Original', 'Estimate');
+        end
     end
-    figure();
-    plot(0:length(approx)-1,approx);
-    grid on
-    deriv1 = approx(2:end) - approx(1:end-1);
-    figure();
-    plot(deriv1);
-    grid on
-    deriv2 = deriv1(2:end) - deriv1(1:end-1);
-    figure();
-    plot(deriv2);
-    grid on
 end
 
