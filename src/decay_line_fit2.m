@@ -9,21 +9,29 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
 %  b: parameter representing the dynamics
 
     addpath('utilities/');
-    num_vars = 3;
-    %generate function which is a combination of an expoential decay term
-    %and an elongation term
-    f = @(vars) [0]; %vars = [b,el,al]
-    for i = 1:length(auto_cor)
-        f = @(vars) [f(vars) full_func_cor(vars(2),vars(3),i-1,vars(1)) / ...
-            full_func_cor(vars(2),vars(3),0,vars(1)) - auto_cor(i)];
+    num_vars = 4;
+    num_deriv = 2;
+    to_fit = auto_cor(2:end) / auto_cor(2);
+    
+    %num_deriv determines what's being fit
+    for i = 1:num_deriv
+        to_fit = to_fit(2:end) - to_fit(1:end-1);
     end
+    
+    %generate function which is the expectation value of the
+    %autocorrelation
+    f = @(vars) [0]; %vars = [a,b,el,al]
+    for i = 1:length(to_fit)
+        f = @(vars) [f(vars) full_func_cor_deriv(vars(3),vars(4), ...
+            i,vars(1),vars(2),num_deriv) - to_fit(i)];
+    end  
     
     % run non linear least squares on function with multiple random
     % starting points and choose the one with the lowest error
     low_err = 10000;
     opt = zeros(1,num_vars);
-    options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-8, ...
-        'StepTolerance', 1e-8, 'OptimalityTolerance', 1e-8, 'display', 'off');
+    options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-10, ...
+        'StepTolerance', 1e-10, 'OptimalityTolerance', 1e-10, 'display', 'off');
     for j = 1:15
         x0 = zeros(1,num_vars);
         for i =1:num_vars
@@ -42,8 +50,8 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
         %plot result
         approx = zeros(1,length(auto_cor));
         for i = 1:length(approx)
-            approx(i) = full_func_cor(opt(2),opt(3),i-1,opt(1)) / ...
-                full_func_cor(opt(2),opt(3),0,opt(1));
+            approx(i) = full_func_cor(opt(3),opt(4),i-1,opt(1),opt(2)) / ...
+                full_func_cor(opt(3),opt(4),0,opt(1),opt(2));
         end
         if ishandle(hs(1))
             set(0, 'CurrentFigure', hs(1));
