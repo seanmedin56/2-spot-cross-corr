@@ -3,9 +3,12 @@ function cor = full_func_cor(elong,alph,tau,a,b)
 %   Detailed explanation goes here
     cor = 0;
     
+    alph = min(alph,elong);
+    
     %calculates poisson term
+
     p_cor = max(0,elong - tau - alph) + (min(alph,max(elong - tau, 0))^2 ...
-        - max(min(alph,elong) - tau,0)^2) / 2 / alph + max(alph - tau,0)^3 ...
+        - max(alph - tau,0)^2) / 2 / alph + max(alph - tau,0)^3 ...
         / 3 / alph^2 + max(alph - tau,0)^2 * tau / 2 / alph^2;
     
     
