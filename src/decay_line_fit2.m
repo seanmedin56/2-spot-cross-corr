@@ -11,7 +11,7 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
     addpath('utilities/');
     num_vars = length(upper_limits);
     num_eigs = (num_vars - 2) / 2;
-    num_deriv = 1;
+    num_deriv = 2;
     to_fit = auto_cor(2:end) / auto_cor(2);
     
     %num_deriv determines what's being fit
@@ -62,7 +62,7 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
             legend('Original', 'Estimate');
         end
         deriv1 = approx(2:end) - approx(1:end-1);
-        if length(hs) > 1 && ishandle(hs(2))
+        if length(hs) > 1 && ishandle(hs(2)) && strcmp(get(hs(2),'type'),'figure')
             set(0, 'CurrentFigure', hs(2));
             hold on
             plot(deriv1);
