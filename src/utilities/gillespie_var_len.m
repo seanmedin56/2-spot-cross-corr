@@ -34,13 +34,13 @@ pre_alloc = 100;
 times_unif = (1:points_per_trace) * time_res;
 
 %array for keeping track of polymerase arrivals
-arrival_times = zeros(pre_alloc);
+arrival_times = zeros(1,pre_alloc);
 
 %keeps track of the intrinsic rates for each polymerase
-int_rates = zeros(pre_alloc);
+int_rates = zeros(1,pre_alloc);
 
 %keep track of the state when each polymerase came
-naive_states = zeros(pre_alloc);
+naive_states = zeros(1,pre_alloc);
 
 % duration of the simulated process
 t_max = points_per_trace * time_res;

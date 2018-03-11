@@ -1,4 +1,4 @@
-function [trace] = gillespie_rate_spread(elong_func, time_res, points_per_trace, ...
+function [trace,elongs] = gillespie_rate_spread(elong_func, time_res, points_per_trace, ...
                                  num_states, trans_mat, rna_per_sec, ...
                                  fluo_per_rna, MS2_rise_perc,init_dist,noise)
 %Generates individual traces with the gillespie algorithm that have rnas
@@ -35,13 +35,13 @@ pre_alloc = 100;
 times_unif = (1:points_per_trace) * time_res;
 
 %array for keeping track of polymerase arrivals
-arrival_times = zeros(pre_alloc);
+arrival_times = zeros(1,pre_alloc);
 
 %keeps track of the intrinsic rates for each polymerase
-int_rates = zeros(pre_alloc);
+int_rates = zeros(1,pre_alloc);
 
 %keep track of the state when each polymerase came
-naive_states = zeros(pre_alloc);
+naive_states = zeros(1,pre_alloc);
 
 % duration of the simulated process
 t_max = points_per_trace * time_res;
@@ -80,6 +80,9 @@ while (t < t_max)
     end   
 end
 
+% distribution of elongation times
+elongs = zeros(1,idx_pol2-1);
+
 % uses the arrival times to generate the traces
 bottleneck = 0;
 crosses = [];
@@ -89,11 +92,13 @@ for pol = 1:(idx_pol2 - 1)
     new_cross_locs = [];
     start = arrival_times(pol);
     start_idx_list = find(times_unif >= start);
+    elongs(pol) = max(bottleneck - start, int_rates(pol));
     if isempty(start_idx_list)
         continue
     end
     first_idx = start_idx_list(1);
     end_idx_list = find(times_unif <= max(bottleneck,start + int_rates(pol)));
+    
     if isempty(end_idx_list)
         continue
     end

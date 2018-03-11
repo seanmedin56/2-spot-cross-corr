@@ -23,17 +23,19 @@ function traces = gen_data_rate_spread(elong_vars,time_res,points_per_trace, ...
 addpath('utilities/');
 
 traces = cell([1,num_traces]);
+elongs = cell([1,num_traces]);
 if strcmp(elong_vars{1},'Gaussian')
     elong_func = @(state,t) normrnd(elong_vars{2},elong_vars{3});
 else
     elong_func = @(state,t) randsample(elong_vars{2}:elong_vars{4}:elong_vars{3},1);
 end
 for i = 1:num_traces
-    traces{i} = gillespie_rate_spread(elong_func, time_res, points_per_trace, ...
+    [trace, elong] = gillespie_rate_spread(elong_func, time_res, points_per_trace, ...
                               num_states, trans_mat, rna_per_sec, ...
                               fluo_per_rna, MS2_rise_time,init_dist,noise);
-end
-    
+    traces{i} = trace;
+    elongs{i} = elong;
 end
 
-
+plot_elong_spread(elongs,20);
+end

@@ -1,4 +1,4 @@
-function [trace] = gillespie_pauses(elong_time, pause_funcs, pause_locs, ...
+function [trace,elongs] = gillespie_pauses(elong_time, pause_funcs, pause_locs, ...
                                  time_res, points_per_trace, ...
                                  num_states, trans_mat, rna_per_sec, ...
                                  fluo_per_rna, MS2_rise_perc,init_dist,noise)
@@ -39,7 +39,7 @@ pre_alloc = 100;
 times_unif = (1:points_per_trace) * time_res;
 
 %array for keeping track of polymerase arrivals
-arrival_times = zeros(pre_alloc);
+arrival_times = zeros(1,pre_alloc);
 
 %array for keeping track of pauses for each polymerase
 pauses = cell(1,pre_alloc);
@@ -77,7 +77,7 @@ while (t < t_max)
     ddt = exprnd(avg_time);
     while ddt < dt
         arrival_times(idx_pol2) = t - dt + ddt;
-        pause_times = zeros(length(pause_locs));
+        pause_times = zeros(1,length(pause_locs));
         start_place = 0;
         start_time = arrival_times(idx_pol2);
         for i = 1:length(pause_locs)
@@ -89,9 +89,12 @@ while (t < t_max)
                 pause_times(i) = pause_funcs{i}(naive_states(end), start_time) ...
                     + start_time + (pause_locs(i) - start_place) * elong_time;
             end
+            
             start_place = pause_locs(i);
             start_time = pause_times(i);
+
         end
+
         pauses{idx_pol2} = pause_times;
         idx_pol2 = idx_pol2 + 1;
         next = exprnd(avg_time);
@@ -99,10 +102,15 @@ while (t < t_max)
     end   
 end
 
+% distribution of elongation times
+elongs = zeros(1,idx_pol2-1);
+
 % uses the arrival times to generate the traces
 for pol = 1:(idx_pol2 - 1)
     start = arrival_times(pol);
     start_idx_list = find(times_unif >= start);
+
+    elongs(pol) = pauses{pol}(end) + (1-pause_locs(end)) * elong_time - start;
     if isempty(start_idx_list)
         continue
     end
@@ -122,7 +130,6 @@ for pol = 1:(idx_pol2 - 1)
             pause_idx = pause_idx + 1;
         end
         if pause_idx > 1
-            disp('reached')
             relative_loc = relative_loc + (end_time - pauses{pol}(pause_idx-1)) / elong_time;
         else
             relative_loc = (end_time - start) / elong_time;
