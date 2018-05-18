@@ -17,7 +17,8 @@ function traces = gen_data_pauses(elong_time,pause_locs,pause_means, ...
 % rna_per_sec: Vector of how many rnas are loaded per second for each state
 % fluo_per_rna: How much fluorescence each rna produces when its fully
 % loaded
-% MS2_rise_time: How long it takes for a polymerase to fully fluoresce
+% MS2_rise_time: What percentage along the gene must be traversed before
+% all the MS2 has been transcribed
 % init_dist: The initial probability distribution for being in a given
 % state
 
@@ -41,7 +42,7 @@ for i = 1:num_traces
     elongs{i} = elong;
 end
 
-plot_elong_spread(elongs,20);
+%plot_elong_spread(elongs,20);
     
 end
 

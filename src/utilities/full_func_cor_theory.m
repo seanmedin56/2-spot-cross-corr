@@ -1,4 +1,4 @@
-function cor_tot = full_func_cor(elong,alph,tau,aes,bes)
+function [cor_tot,pois] = full_func_cor_theory(elong,alph,tau,aes,bes)
 % calculates autocorrelation at time delay tau
 %   Detailed explanation goes here
 

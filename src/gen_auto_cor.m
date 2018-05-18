@@ -33,6 +33,7 @@ if auto
         plot(0:max_delay-1, corr);
     end
     title('Central Moment');
+    xlabel('time delay');
     grid on
     hs(1) = h;
 end
@@ -45,6 +46,7 @@ if first
         plot(corr_1st);
     end
     title('Central Moment 1st Derivative');
+    xlabel('time delay');
     grid on
     hs(2) = h;
 end
@@ -57,6 +59,7 @@ if second
         plot(corr_2nd);
     end
     title('Central Moment 2nd Derivative');
+    xlabel('time delay');
     grid on
     hs(3) = h;
 end

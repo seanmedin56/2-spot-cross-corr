@@ -48,6 +48,7 @@ corr_m = auto_corr_m_calc_norm(traces, max_delay);
 h = figure;
 plot(0:max_delay-1, corr_m);
 title('central moment');
+xlabel('time delay');
 grid on
 savefig([dirs{1} 'central_moment.fig']);
 close(h);
@@ -62,11 +63,13 @@ m_2nd_deriv = m_1st_deriv(2:max_delay - 1) - m_1st_deriv(1:max_delay - 2);
 h = figure;
 plot(m_1st_deriv);
 title('first derivative of central moment');
+xlabel('time delay');
 savefig([dirs{1} 'central_moment_1st_deriv.fig']);
 close(h);
 
 h = figure;
 plot(m_2nd_deriv);
 title('second derivative of central moment');
+xlabel('time delay');
 savefig([dirs{1} 'central_moment_2nd_deriv.fig']);
 close(h);

@@ -13,6 +13,7 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
     num_eigs = (num_vars - 2) / 2;
     num_deriv = 2;
     to_fit = auto_cor(2:end) / auto_cor(2);
+    cor_fun = @(elong,alph,tau,aes,bes) full_func_cor(elong,alph,tau,aes,bes);
     
     %num_deriv determines what's being fit
     for i = 1:num_deriv
@@ -24,16 +25,16 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
     f = @(vars) [0]; %vars = [el,al,a1,a2,...b1,b2,...]
     for i = 1:length(to_fit)
         f = @(vars) [f(vars) full_func_cor_deriv(vars(1),vars(2), ...
-            i,vars(3:2+num_eigs),vars(3+num_eigs:end),num_deriv) - to_fit(i)];
+            i,vars(3:2+num_eigs),vars(3+num_eigs:end),num_deriv,cor_fun) - to_fit(i)];
     end  
     
     % run non linear least squares on function with multiple random
     % starting points and choose the one with the lowest error
     low_err = 10000;
     opt = zeros(1,num_vars);
-    options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-10, ...
-        'StepTolerance', 1e-10, 'OptimalityTolerance', 1e-10, 'display', 'off');
-    for j = 1:15
+    options = optimoptions('lsqnonlin', 'FunctionTolerance', 1e-7, ...
+        'StepTolerance', 1e-7, 'OptimalityTolerance', 1e-7, 'display', 'off');
+    for j = 1:1
         x0 = zeros(1,num_vars);
         for i =1:num_vars
             x0(i) = rand() * (upper_limits(i) - lower_limits(i)) + lower_limits(i);
@@ -51,8 +52,8 @@ function opt = decay_line_fit2(auto_cor,upper_limits,lower_limits,hs)
         %plot result
         approx = zeros(1,length(auto_cor));
         for i = 1:length(approx)
-            approx(i) = full_func_cor(opt(1),opt(2),i-1,opt(3:2+num_eigs), ...
-                opt(3+num_eigs:end)) / full_func_cor(opt(1),opt(2),0, ...
+            approx(i) = cor_fun(opt(1),opt(2),i-1,opt(3:2+num_eigs), ...
+                opt(3+num_eigs:end)) / cor_fun(opt(1),opt(2),0, ...
                 opt(3:2+num_eigs),opt(3+num_eigs:end));
         end
         if ishandle(hs(1))

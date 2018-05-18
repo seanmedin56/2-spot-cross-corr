@@ -4,7 +4,7 @@ function traces = gen_data_var_len(elong_vars,time_res,points_per_trace, ...
                             init_dist, noise)
 %This function returns traces with the features specified in the above
 % elong_vars: array with two possibilities 
-% if the first element is "gauss" the next two are the mean and standard
+% if the first element is "Gaussian" the next two are the mean and standard
 % deviation, otherwise the next three are the start, end, and step for a
 % uniform distribution
 % time_res: How often the fluorescence is measured
@@ -28,7 +28,7 @@ if strcmp(elong_vars{1},'Gaussian')
 else
     elong_func = @(state,t) randsample(elong_vars{2}:elong_vars{4}:elong_vars{3},1);
 end
-display(elong_vars);
+
 for i = 1:num_traces
     traces{i} = gillespie_var_len(elong_func, time_res, points_per_trace, ...
                               num_states, trans_mat, rna_per_sec, ...

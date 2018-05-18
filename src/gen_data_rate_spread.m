@@ -4,7 +4,7 @@ function traces = gen_data_rate_spread(elong_vars,time_res,points_per_trace, ...
                             init_dist, noise)
 %This function returns traces with the features specified in the above
 % elong_vars: array with two possibilities 
-% if the first element is "gauss" the next two are the mean and standard
+% if the first element is "Gaussian" the next two are the mean and standard
 % deviation, otherwise the next three are the start, end, and step for a
 % uniform distribution
 % time_res: How often the fluorescence is measured
@@ -37,5 +37,5 @@ for i = 1:num_traces
     elongs{i} = elong;
 end
 
-plot_elong_spread(elongs,20);
+%plot_elong_spread(elongs,20);
 end
