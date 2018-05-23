@@ -1,3 +1,5 @@
+% processes traces from 2 spot experiment
+
 addpath('utilities/');
 
 dataElong = open('C:\Users\seanm\Desktop\garcia_lab_stuff\elong_search\dat\real_data\20sSnippetStructures.mat');

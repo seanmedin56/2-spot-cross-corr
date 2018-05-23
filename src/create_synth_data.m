@@ -1,3 +1,5 @@
+% creates synthetic two spot data (should be run from src folder)
+
 addpath('utilities/');
 
 % create directories for outputing data and the results

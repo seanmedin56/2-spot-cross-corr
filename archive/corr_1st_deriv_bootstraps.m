@@ -1,7 +1,12 @@
-function stds = corr_2nd_deriv_bootstraps(trace1, trace2, max_delay, num_times, type)
+function stds = corr_1st_deriv_bootstraps(trace1, trace2, max_delay, num_times, type)
 
 % takes random selections of traces and calculates the standard deviation
 % of the autocorrelations
+% can be done for cross correlation (trace1 != trace2) or for
+% autocorrelation (trace1 == trace2)
+%   max_delay: number of time delay points to take in the auto correlation
+%   num_times: number of times to sample the traces
+%   type: 'r' = raw moment, anything else = central moment
 
     vals = cell([1 max_delay - 2]);
 
@@ -20,9 +25,8 @@ function stds = corr_2nd_deriv_bootstraps(trace1, trace2, max_delay, num_times, 
             corr = auto_corr_m_calc(samples1, samples2, max_delay);
         end
         c1st_deriv = corr(2:max_delay) - corr(1:max_delay - 1);
-        c2nd_deriv = c1st_deriv(2:max_delay-1) - c1st_deriv(1:max_delay-2);
-        for j = 1:length(c2nd_deriv)
-            vals{j}(i) = c2nd_deriv(j);
+        for j = 1:length(c1st_deriv)
+            vals{j}(i) = c1st_deriv(j);
         end
     end
     stds = zeros([1 length(vals)]);

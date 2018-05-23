@@ -1,3 +1,6 @@
+% code for generating traces AND running inference on those traces
+% liberally copy and pasted from mhmm repository
+
 addpath('utilities/');
 
 % create directories for outputing data and the results

@@ -1,3 +1,4 @@
+% I think I took this from some version of the pipeline
 function [intensity, fit] = gauss_integral(snip)
 %This function takes a 2d pixelated spot and calculates the intensity by
 %fitting the snippet to a 2d gaussian and subtracting out the background

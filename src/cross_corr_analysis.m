@@ -1,6 +1,7 @@
 % analyzes the cross correlation and related statistics of two traces
-%saves a plot of R and M for the autocorrelation
-%also saves a plot for the first and second derivative
+%saves a plot of R and M for the autocorrelation (with bootstraps)
+%also saves a plot for the first and second derivative (without bootstraps,
+%but can easily be changed to include he boostraps)
 
 addpath('utilities/');
 
@@ -40,7 +41,7 @@ end
 
 corr_r = smooth(cross_corr_r_calc(trace1, trace2, max_delay))';
 if length(trace1) > 5
-    bootstrap_r = corr_bootstraps(trace1, trace2, max_delay, 1000, 'r');
+    [bootstrap_r, std1, std2] = corr_bootstraps(trace1, trace2, max_delay, 1000, 'r');
 end
 
 h = figure;
@@ -56,7 +57,7 @@ close(h);
 
 corr_m = cross_corr_m_calc(trace1, trace2, max_delay);
 if length(trace1) > 5
-    bootstrap_m = corr_bootstraps(trace1, trace2, max_delay, 1000, 'm');
+    [bootstrap_m, std1, std2] = corr_bootstraps(trace1, trace2, max_delay, 1000, 'm');
 end
 
 h = figure;
