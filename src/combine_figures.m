@@ -1,4 +1,6 @@
 % draws figures on a single graph
+% This code could be useful for putting mutliple plots on a single figure
+% in the future
 
 path = '../out/synth_cross_corr/small elong/';
 

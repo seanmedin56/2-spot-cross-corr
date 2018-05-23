@@ -9,6 +9,7 @@ if exist('project') ~= 1
     return
 end
 
+% cut determines how many of the first few points of each trace to discard
 if exist('cut') ~= 1
     cut = 1;
 end
@@ -42,6 +43,9 @@ end
 % -------------plots the autocovariance and the raw moment----------------
 
 corr_m = auto_corr_m_calc_norm(traces, max_delay);
+
+% sample code for generating bootstraps for the autocorrelation and the
+% second derivative of the autocorrelation
 %bootstrap_m = corr_bootstraps(traces, max_delay, 1000, 'm');
 %boot_m_2nd = corr_2nd_deriv_bootstraps(traces, max_delay, 1000, 'm');
 

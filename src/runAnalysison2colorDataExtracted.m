@@ -1,3 +1,5 @@
+%file from Aramando for getting traces from his 2 spot data
+
 mcp5frameinfo = load('D:\Data\Armando\livemRNA\Data\Dropbox\DynamicsResults\2017-04-25-P2P_MS2-PP7-LacZ_20secc2\FrameInfo.mat');
 mcp5frameinfo = mcp5frameinfo.FrameInfo;
 dt = mcp5frameinfo(2).Time;

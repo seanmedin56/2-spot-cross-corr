@@ -1,4 +1,5 @@
-% generates 2 trapezoids with various properties
+% generates 2 trapezoids with various properties (this was pointless, but
+% keeping anyway in case Armando wants it in the future for some reason)
 
 %project name
 project = 'slope diff';
