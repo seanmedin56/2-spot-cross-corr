@@ -20,7 +20,7 @@ nGR = 1;
 % time resolution
 deltaT = {10, 20, 10};
 
-% system memory
+% system memory 
 w = {12, 3};
 
 % time it takes to transcribe the MS2 loops [sec]
