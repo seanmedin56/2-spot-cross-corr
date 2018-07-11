@@ -61,7 +61,7 @@ r_emission{3} = r_emission{2};
 % background noise [a.u.]
 noise = cell([1, nGR]);
 for i = 1:nGR
-    noise{i} = 1000;
+    noise{i} = 0;
 end
 
 % state conversion (which states are active in the two loci)
