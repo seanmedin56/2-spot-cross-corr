@@ -88,7 +88,7 @@ savefig([dirs{1} 'raw_moment_1st_deriv.fig']);
 close(h);
 
 h = figure;
-plot(m_1st_deriv);
+errorbar(m_1st_deriv, std1);
 title(['first derivative of central moment: ' project]);
 xlabel('time delay');
 savefig([dirs{1} 'central_moment_1st_deriv.fig']);
@@ -102,7 +102,7 @@ savefig([dirs{1} 'raw_moment_2nd_deriv.fig']);
 close(h);
 
 h = figure;
-plot(m_2nd_deriv);
+errorbar(m_2nd_deriv, std2);
 title(['second derivative of central moment: ' project]);
 xlabel('time delay');
 savefig([dirs{1} 'central_moment_2nd_deriv.fig']);
